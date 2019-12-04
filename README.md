@@ -49,6 +49,45 @@ Steps to build and run locally:
 * Optionally, one can configure port using commandline parameter => --server.port=9090 
 * Access and invoke APIs using url => http://localhost:8080/swagger-ui.html
 * Application will ask for authentication credentials during invocation of API's. Use 'admin' as user id and password.
+* Following are steps for adding new items in bill: 
+1. Hit GET /bills to check the bills of items which are intilized through setuprunner in application.
+2. Then hit POST /bills method, which creates the bill with some id (eg. 2).
+3. Then hit PUT /bills/2, for this end point, please provide below Request Body with id(eg. 2):
+{
+  "productsToBeAdded": [
+    {
+      "barCodeId": "ABC-abc-0004",
+      "quantity": 3
+    }
+  ],
+  "status": "RELEASED"
+}
+You can see response body which is given below:
+Response Body:
+{
+  "id": 2,
+  "noOfItems": 1,
+  "totalCost": 150,
+  "totalTax": 15,
+  "totalValue": 165,
+  "billStatus": "RELEASED",
+  "lineItems": [
+    {
+      "id": 7,
+      "product": {
+        "id": 4,
+        "barCodeId": "ABC-abc-0004",
+        "name": "Bread",
+        "productCategory": "A",
+        "rate": 50
+      },
+      "quantity": 3
+    }
+  ]
+}
+
+4. After that you can hit agian hit GET /bills, which shows all items in bucket.
+
 
 This application uses H2 database and does not persist data on application restarts. 
 
